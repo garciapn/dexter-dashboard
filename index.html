@@ -1,1 +1,252 @@
-<html><body><p>Loading...</p></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEXTER — Deep Intelligence Feed</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #080c12;
+    color: #b0c4d8;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 13px;
+    min-height: 100vh;
+    padding: 12px;
+  }
+  .header {
+    background: linear-gradient(135deg, #0a0f18 0%, #0f1825 100%);
+    border: 1px solid #1a2840;
+    border-left: 4px solid #4a90d9;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .header::after {
+    content: 'CLASSIFIED';
+    position: absolute;
+    top: 10px; right: 14px;
+    color: #1a2840;
+    font-size: 10px;
+    letter-spacing: 4px;
+    border: 1px solid #1a2840;
+    padding: 2px 6px;
+  }
+  .header h1 {
+    font-size: 19px;
+    letter-spacing: 3px;
+    color: #4a90d9;
+    text-shadow: 0 0 15px rgba(74,144,217,0.3);
+  }
+  .header .subtitle { color: #1a3050; font-size: 11px; letter-spacing: 2px; margin-top: 5px; }
+  .meta-strip {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    background: #0a0f18;
+    border: 1px solid #1a2840;
+    margin-bottom: 16px;
+    font-size: 11px;
+  }
+  .meta-item { color: #1a4060; }
+  .meta-item span { color: #4a90d9; }
+  .section {
+    background: #090d15;
+    border: 1px solid #1a2840;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: #0d1520;
+    border-bottom: 1px solid #1a2840;
+    padding: 10px 14px;
+    color: #2a6090;
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .intel-item {
+    padding: 12px 14px;
+    border-bottom: 1px solid #0d1520;
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 10px;
+    align-items: start;
+  }
+  .intel-item:last-child { border-bottom: none; }
+  .intel-item:hover { background: #0d1520; }
+  .intel-topic {
+    color: #2a6090;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border: 1px solid #1a3050;
+    background: #0a1520;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .intel-headline {
+    color: #8ab8d8;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .intel-headline a { color: #4a90d9; text-decoration: none; font-size: 10px; display: block; margin-top: 4px; }
+  .intel-headline a:hover { color: #6ab0f0; }
+  .intel-time { color: #1a3050; font-size: 10px; white-space: nowrap; }
+  .bus-item {
+    padding: 10px 14px;
+    border-bottom: 1px solid #0d1520;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+  .bus-item .from { color: #2a6090; font-size: 10px; letter-spacing: 1px; margin-right: 10px; }
+  .bus-item .msg { color: #8ab8d8; flex: 1; }
+  .synthesis {
+    padding: 14px;
+    color: #6a90a8;
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    border-left: 3px solid #1a3050;
+    margin: 8px 14px;
+  }
+  .ar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 14px;
+  }
+  .ar-box {
+    background: #0a0f18;
+    border: 1px solid #1a2840;
+    padding: 10px;
+  }
+  .ar-box .ar-label { color: #1a3050; font-size: 10px; letter-spacing: 2px; margin-bottom: 5px; }
+  .ar-box .ar-value { color: #4a90d9; font-size: 13px; }
+  .no-data { padding: 16px; color: #1a3050; font-size: 11px; letter-spacing: 1px; text-align: center; }
+  .footer {
+    color: #1a2840;
+    font-size: 10px;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid #1a2840;
+  }
+  @media (max-width: 600px) {
+    .intel-item { grid-template-columns: 1fr; }
+    .ar-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔬 DEXTER — DEEP INTELLIGENCE FEED</h1>
+  <div class="subtitle">AI FUNDING · MARKETS · APP SIGNALS · AGENT BUS · SYNTHESIS</div>
+</div>
+
+<div class="meta-strip" id="meta-strip">Loading...</div>
+<div id="app"></div>
+
+<script>
+const DATA = {"updated":"2026-03-29T03:22:35.136Z","topics":["💰 AI Funding","📊 New AI ETFs","🟢 NVDA News","🫁 BreathLog Signals","✊ GripTrack Signals","🤖 AI Agent News","📈 Prediction Markets"],"intel":[],"busMessages":[],"synthesis":null,"autoResearch":{"runCount":6,"bestMetric":null,"improvements":0,"lastExperiment":{"param":"cryptoCoins","oldValue":"bitcoin,ethereum,solana,dogecoin,pepe","newValue":"bitcoin,ethereum,solana"}}};
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function render(d) {
+  const intel = d.intel || [];
+  const busMessages = d.busMessages || [];
+  const ar = d.autoResearch || {};
+
+  // Meta strip
+  document.getElementById('meta-strip').innerHTML = `
+    <div class="meta-item">LAST RUN: <span>${d.updated ? new Date(d.updated).toLocaleString() : 'NEVER'}</span></div>
+    <div class="meta-item">TOPICS: <span>${(d.topics||[]).length}</span></div>
+    <div class="meta-item">INTEL ITEMS: <span>${intel.length}</span></div>
+    <div class="meta-item">BUS MSGS: <span>${busMessages.length}</span></div>
+  `;
+
+  // Intel items
+  let intelHtml = '';
+  if (intel.length === 0) {
+    intelHtml = '<div class="no-data">[ AWAITING INTEL — DEXTER RUNS AT 9AM & 4PM DAILY ]</div>';
+  } else {
+    intelHtml = intel.map(item => `
+      <div class="intel-item">
+        <div class="intel-topic">${escHtml(item.topic||'')}</div>
+        <div class="intel-headline">
+          ${escHtml(item.headline||'')}
+          ${item.url ? `<a href="${escHtml(item.url)}" target="_blank" rel="noopener">→ ${escHtml(item.url.slice(0,50))}...</a>` : ''}
+        </div>
+        <div class="intel-time">${escHtml(item.time||'')}</div>
+      </div>
+    `).join('');
+  }
+
+  // Bus messages
+  let busHtml = '';
+  if (busMessages.length === 0) {
+    busHtml = '<div class="no-data">[ NO AGENT BUS MESSAGES ]</div>';
+  } else {
+    busHtml = busMessages.map(msg => `
+      <div class="bus-item">
+        <span class="from">[${escHtml(msg.from||'AGENT')}]</span>
+        <span class="msg">${escHtml(msg.text||'')}</span>
+        <span style="color:#1a3050;font-size:10px">${escHtml(msg.time||'')}</span>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('app').innerHTML = `
+    <div class="section">
+      <div class="section-header"><span>📡 INTEL FEED</span><span style="color:#1a2840">${intel.length} ITEMS</span></div>
+      ${intelHtml}
+    </div>
+
+    <div class="section">
+      <div class="section-header">🚌 AGENT BUS</div>
+      ${busHtml}
+    </div>
+
+    ${d.synthesis ? `<div class="section">
+      <div class="section-header">🧠 DEXTER'S SYNTHESIS</div>
+      <div class="synthesis">${escHtml(d.synthesis)}</div>
+    </div>` : ''}
+
+    <div class="section">
+      <div class="section-header">⚗ AUTORESEARCH STATUS</div>
+      <div class="ar-grid">
+        <div class="ar-box"><div class="ar-label">RUN COUNT</div><div class="ar-value">${ar.runCount || 0}</div></div>
+        <div class="ar-box"><div class="ar-label">BEST METRIC</div><div class="ar-value">${ar.bestMetric || 'N/A'}</div></div>
+        <div class="ar-box"><div class="ar-label">IMPROVEMENTS</div><div class="ar-value">${ar.improvements || 0}</div></div>
+      </div>
+      ${ar.lastExperiment ? `<div style="padding:10px 14px;color:#1a3050;font-size:10px;letter-spacing:1px">LAST EXPERIMENT: ${escHtml(JSON.stringify(ar.lastExperiment))}</div>` : ''}
+    </div>
+
+    <div class="footer">
+      LAST UPDATED: ${d.updated || new Date().toISOString()} &nbsp;·&nbsp; AUTO-REFRESH: 5MIN
+    </div>
+  `;
+}
+
+try {
+  render(DATA);
+} catch(e) {
+  document.getElementById('app').innerHTML = '<div style="color:#ff4444;padding:20px">ERROR: ' + e.message + '</div>';
+}
+
+setTimeout(() => location.reload(), 300000);
+</script>
+</body>
+</html>
